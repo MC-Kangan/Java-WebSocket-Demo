@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <h2>WebSocket Client</h2>
+    <input type="text" id="messageInput" placeholder="Enter message">
+    <button onclick="sendMessage()">Send Message</button>
+    <!-- <div id="responses"> is an empty container that will hold messages and responses from the WebSocket server. -->
+    <div id="responses"></div>
+
+    
+    <script>
+        // JavaScript within <script> tags can be embedded directly into HTML to make the page interactive.
+        // JavaScript has a built-in WebSocket API, which lets the browser create a WebSocket connection and communicate with a WebSocket server
+        const ws = new WebSocket("ws://localhost:8080/ws/echo");
+
+        // Runs when the connection opens.
+        ws.onopen = () => {
+            console.log("Connected to WebSocket server");
+            // Document is a special, built-in object in JavaScript that represents the entire HTML document (or webpage) loaded in the browser.
+            document.getElementById("responses").innerHTML += "<p>Connected to server</p>";
+        };
+        
+        // Runs each time the server sends a message back to the client. 
+        ws.onmessage = (event) => {
+            console.log("Received from server: " + event.data);
+            document.getElementById("responses").innerHTML += "<p>" + event.data + "</p>";
+        };
+
+
+        // Runs when the connection is closed.
+        ws.onclose = () => {
+            console.log("Disconnected from WebSocket server");
+            document.getElementById("responses").innerHTML += "<p>Disconnected from server</p>";
+        };
+
+        function sendMessage() {
+            const message = document.getElementById("messageInput").value;
+            ws.send(message);
+            document.getElementById("responses").innerHTML += "<p>Sent: " + message + "</p>";
+        }
+    </script>
+</body>
+</html>
