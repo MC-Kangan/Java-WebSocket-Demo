@@ -23,14 +23,14 @@ After installing, verify the installation with: mvn -v
 
 Project Structure
 -----------------
-my-websocket-project
-├── src
-│   └── main
-│       └── java
-│           └── MyWebSocketServer.java
-            └── MyWebSocketServerApp.java
-├── index.html
-└── pom.xml
+    my-websocket-project
+    ├── src
+    │   └── main
+    │       └── java
+    │           └── MyWebSocketServer.java
+    │           └── MyWebSocketServerApp.java
+    ├── index.html
+    └── pom.xml
 
 - `MyWebSocketServer.java`: Defines WebSocket behavior (connect, message, disconnect) without a main method.
 - `MyWebSocketServerApp.java`: Contains the main method, starts the server, and connects the WebSocket server to MyWebSocketServer.
