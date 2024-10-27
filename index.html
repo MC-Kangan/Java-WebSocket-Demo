@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WebSocket Client</title>
+    <title>WebSocket Clien with Authentication</title>
 </head>
 <body>
     <h2>WebSocket Client</h2>
-    <input type="text" id="messageInput" placeholder="Enter message">
-    <button onclick="sendMessage()">Send Message</button>
+    <input type="text" id="userNameInput" placeholder="Enter username">
+    <button onclick="authenticate()">Authenticate</button>
     <!-- <div id="responses"> is an empty container that will hold messages and responses from the WebSocket server. -->
     <div id="responses"></div>
 
@@ -27,7 +27,7 @@
         // Runs each time the server sends a message back to the client. 
         ws.onmessage = (event) => {
             console.log("Received from server: " + event.data);
-            document.getElementById("responses").innerHTML += "<p>" + event.data + "</p>";
+            document.getElementById("responses").innerHTML += "<p>" + "Received from server: " + event.data + "</p>";
         };
 
 
@@ -37,8 +37,9 @@
             document.getElementById("responses").innerHTML += "<p>Disconnected from server</p>";
         };
 
-        function sendMessage() {
-            const message = document.getElementById("messageInput").value;
+        function authenticate() {
+            const userName = document.getElementById("userNameInput").value;
+            const message = JSON.stringify({user_name: userName});
             ws.send(message);
             document.getElementById("responses").innerHTML += "<p>Sent: " + message + "</p>";
         }

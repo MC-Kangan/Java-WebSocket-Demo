@@ -37,7 +37,7 @@ Project Structure
 - `index.html`: A simple HTML file for the WebSocket client.
 - `pom.xml`: Maven configuration file to manage dependencies and build the project.
 
-Why do you need both MyWebSocketServerApp.java and MyWebSocketServer.java?
+Why do you need both MyWebSocketServerApp and MyWebSocketServer?
 ==================
 `MyWebSocketServer`:
 - This class is purely focused on handling WebSocket connections and messages.
@@ -56,7 +56,16 @@ In summmary:
 - MyWebSocketServer: Manages WebSocket interactions only.
 - MyWebSocketServerApp: Manages the server lifecycle.
 
+Why WebSocket Uses ws:// Instead of http://
+==================
+HTTP Protocol:
+- Request-Response Model: In HTTP, the client (browser) sends a request, and the server sends a response. Each request and response is independent, meaning the connection closes after each interaction.
+- Unidirectional: Standard HTTP is primarily for sending data from the client to the server and back, but each interaction requires a new request, making continuous two-way communication inefficient.
 
+WebSocket Protocol (ws://):
+- Persistent Connection: The WebSocket protocol is designed for real-time, continuous, two-way communication over a single, long-lasting connection.
+- Bidirectional Communication: WebSocket allows both the client and server to send messages to each other independently, without having to start a new connection each time.
+- Efficiency: By keeping a single connection open, WebSocket minimizes the latency and overhead involved in repeated HTTP requests, which is especially beneficial for real-time applications (like chat apps, live updates, etc.).
 
 
 Setup Instructions
@@ -91,3 +100,17 @@ Step 4: Test the WebSocket Client
 - Open index.html in a web browser.
 - Send a message using the input box and click Send Message.
 - You should see the server's response in the responses section of the HTML page.
+- In the setup, index.html doesn’t require an explicit link in the Java server code. Instead, the JavaScript in index.html directly creates a WebSocket connection to the server.
+- The WebSocket server in Java listens on ws://localhost:8080/ws/echo.
+- When the JavaScript code in index.html attempts to connect to this URL, the server accepts the connection and handles it in the @OnOpen, @OnMessage, and @OnClose methods.
+
+
+Summary of the Workflow
+==================
+Client-Side (index.html):
+- The JavaScript code in index.html opens a WebSocket connection using ws://localhost:8080/ws/echo.
+- This connection remains open, allowing the client to send and receive messages continuously.
+
+Server-Side (CombinedWebSocketServer):
+- The Java WebSocket server listens on ws://localhost:8080/ws/echo.
+- When a WebSocket connection request arrives at this URL, the server accepts it and starts handling messages using WebSocket-specific methods (@OnOpen, @OnMessage, and @OnClose).
